@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block javascripts %}
+{% endblock %}
+{% block title %}Hello JuxeboxController!{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            {% for music in data['hydra:member'] %}
+                <div class="swiper-slide musicDiv">
+                    <i class="icon fa-solid fa-play fa-4x" onclick="runMusic({{ music.id }})"></i>
+                    <img src="http://127.0.0.1:8000/assets/cover/{{ music.cover }}" alt="">
+                    <audio
+                            id="music{{ music.id }}"
+                            src="http://127.0.0.1:8000/assets/music/{{ music.link }}">
+                    </audio>
+                    <div class="info">
+                        <h4 class="name">
+                            {{ music.artist }}
+
+                        </h4>
+                        <span class="type">
+                            {{ music.title }}
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+    <script src="{{ asset('assets/js/music.js') }}"></script>
+{% endblock %}
