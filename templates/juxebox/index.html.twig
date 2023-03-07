@@ -3,7 +3,14 @@
 {% endblock %}
 {% block title %}Hello JuxeboxController!{% endblock %}
 {% block body %}
-<div class="container">
+<div class="container flex-column justify-content-around">
+    <div class="row w-100 text-center">
+        <div class="col-2">Logo</div>
+        <div class="col-8"></div>
+        <div class="col-2">
+            <button class="btn btn-danger" style="background: darkred">Login</button>
+        </div>
+    </div>
     <div class="swiper row">
         <div class="swiper-wrapper" data-music="{{ data['hydra:member']|json_encode|e('html_attr') }}">
             {% for music in data['hydra:member'] %}
@@ -33,19 +40,22 @@
         <div class="time row">
             <div class="col-2">
                 <div class="row artist">Artist</div>
-                <div class="row title">Titre</div>
+                <div class="row title" style="color: red">Titre</div>
             </div>
             <div class="col-8 timeline d-flex flex-column justify-content-center">
                 <div class="row align-items-center">
                     <div class="current col-1">0:00</div>
-                    <div class="progress col-10"></div>
+                    <div class="col-10 d-flex align-items-center position-relative">
+                        <div class="progress timeline w-100"></div>
+                        <div class="progress full position-absolute" style="z-index: 1; background: red"></div>
+                    </div>
                     <div class="length col-1"></div>
                 </div>
             </div>
             <div class="volume col-2 d-flex flex-column justify-content-center">
-                <div class="row align-items-center">
+                <div class="row align-items-center ps-3">
                     <i class="fa-solid fa-volume-high col-3"></i>
-                    <input type="range" min="1" max="100" value="100" class="volumeSlider col-9" onchange="setVolume()">
+                    <input type="range" min="1" max="100" value="100" class="volumeSlider col-9" style="accent-color: red" onchange="setVolume()">
                 </div>
             </div>
         </div>

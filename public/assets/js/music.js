@@ -3,7 +3,7 @@ let musicVolume = document.querySelector('.volumeSlider')
 let musicPlaying = document.createElement('audio')
 let musicData = document.querySelector('.swiper-wrapper')
 let length = document.querySelector('.length')
-const progressBar = document.querySelector(".progress");
+const progressBar = document.querySelector(".full");
 let currentTime = document.querySelector('.current')
 let title = document.querySelector('.title')
 let artist = document.querySelector('.artist')
@@ -71,4 +71,11 @@ function setUpdate(){
         currentTime.textContent = currentMinutes + ":" + currentSeconds;
         length.textContent = durationMinutes + ":" + durationSeconds;
     }
+
+    const timeline = document.querySelector(".timeline");
+    timeline.addEventListener("click", e => {
+        const timelineWidth = window.getComputedStyle(timeline).width;
+        const timeToSeek = e.offsetX / parseInt(timelineWidth) * musicPlaying.duration;
+        musicPlaying.currentTime = timeToSeek;
+    }, false);
 }
