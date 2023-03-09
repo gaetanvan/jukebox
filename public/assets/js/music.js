@@ -7,12 +7,54 @@ const progressBar = document.querySelector(".full");
 let currentTime = document.querySelector('.current')
 let title = document.querySelector('.title')
 let artist = document.querySelector('.artist')
+let hearth = document.querySelectorAll('.hearth')
+
+let myDiv = document.getElementById('myDiv');
+let url = myDiv.getAttribute('data-url');
+
+let favorites = []
 
 let music = JSON.parse(musicData.dataset.music)
 let lastMusic;
 let updateTimer;
 let isPlaying = false
 
+
+function makeFavorites(index,musicId){
+    let selected  = hearth[index]
+    if(!selected.classList.contains('liked')){
+        selected.classList.toggle('active')
+        selected.classList.add('liked')
+        favorites.push(musicId)
+    }
+    else {
+        selected.classList.toggle('active')
+        selected.classList.remove('liked')
+        const removeIndex = favorites.indexOf(musicId);
+        console.log(removeIndex, musicId)
+        favorites.splice(removeIndex, musicId)
+    }
+    console.log(favorites)
+}
+function fetchFavorites() {
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ myArray: favorites })
+    })
+        .then(function(response) {
+            if (response.ok) {
+                // Handle successful response
+            } else {
+                throw new Error("Request failed.");
+            }
+        })
+        .catch(function(error) {
+            // Handle error
+        });
+}
 function runMusic(musicId){
     console.log(musicId - 1)
     if(musicId - 1 === lastMusic){

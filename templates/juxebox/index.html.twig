@@ -4,18 +4,30 @@
 {% block title %}Hello JuxeboxController!{% endblock %}
 {% block body %}
 <div class="container flex-column justify-content-around">
-    <div class="row w-100 text-center">
-        <div class="col-2">Logo</div>
-        <div class="col-8"></div>
+    <div class="row w-100 text-center align-items-center" style="margin-top: -30px">
         <div class="col-2">
-            <button class="btn btn-danger" style="background: darkred">Login</button>
+            <img src="{{ asset('assets/img/logo.png') }}" style="width: 70%">
+        </div>
+        <div class="col-8">
+        </div>
+        <div class="col-2">
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <a href="{{ path('app_logout') }}">
+                    <button class="btn btn-danger" style="background: darkred">Logout</button>
+                </a>
+            {% else %}
+                <a href="{{ path('app_login') }}">
+                    <button class="btn btn-danger" style="background: darkred">Login</button>
+                </a>
+            {% endif %}
         </div>
     </div>
     <div class="swiper row">
         <div class="swiper-wrapper" data-music="{{ data['hydra:member']|json_encode|e('html_attr') }}">
             {% for music in data['hydra:member'] %}
                 <div class="swiper-slide musicDiv">
-                    <i class="icon fa-solid fa-play fa-4x" onclick="playpauseTrack({{ music.id }})"></i>
+                    <a href="{{ path('app_favoris', { id: music.id }) }}"><i class="hearth fa-solid fa-heart" onclick="makeFavorites({{ loop.index0 }}, {{ music.id }})"></i></a>
+                    <i class="icon fa-solid fa-play fa-4x" onclick="playpauseTrack({{ loop.index }})"></i>
                     <img src="http://127.0.0.1:8000/assets/cover/{{ music.cover }}" alt="">
                     <div class="info">
                         <h4 class="name{{ music.id }}">
@@ -26,6 +38,7 @@
                             {{ music.title }}
                         </span>
                     </div>
+                    <div id="myDiv" data-url="{{ path('app_juxebox') }}" style="display: none"></div>
                 </div>
             {% endfor %}
         </div>
